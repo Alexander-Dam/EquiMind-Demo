@@ -2,23 +2,21 @@
 <html lang="da">
 <head>
   <meta charset="UTF-8" />
-  <title>EquiMind – Intelligent aktieindsigt</title>
+  <title>EquiMind – Nyhedsbaseret aktieindsigt</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
-      --bg: #020617;
-      --bg-alt: #020617;
-      --card: #020617;
+      --bg: #0a1a2f;
+      --bg-soft: #0f172a;
+      --card: #0b1220;
       --border: #1f2937;
-      --accent: #4f46e5;
-      --accent-soft: rgba(79, 70, 229, 0.15);
-      --accent-strong: #a5b4fc;
-      --text: #e5e7eb;
-      --text-soft: #9ca3af;
-      --danger-soft: rgba(239, 68, 68, 0.12);
-      --danger: #f97373;
-      --success-soft: rgba(34, 197, 94, 0.12);
-      --success: #4ade80;
+      --primary: #4c78ff;
+      --primary-soft: rgba(76, 120, 255, 0.12);
+      --accent-gold: #d4b483;
+      --text: #f9fafb;
+      --text-soft: #aab4c2;
+      --muted: #6b7280;
+      --surface: #020617;
     }
 
     * {
@@ -28,8 +26,13 @@
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #0b1120 0, #020617 55%, #020617 100%);
+      background: radial-gradient(circle at top, #111827 0, #020617 55%, #020617 100%);
       color: var(--text);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
     }
 
     .page {
@@ -38,500 +41,522 @@
       flex-direction: column;
     }
 
-    .container {
-      width: 100%;
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 24px 16px 48px;
-    }
+    /* Topbar */
 
-    header {
+    .topbar {
+      height: 60px;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+      background: radial-gradient(circle at top left, #111827 0, #020617 55%, #020617 100%);
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      padding: 0 24px;
+      gap: 32px;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
       gap: 16px;
-      margin-bottom: 32px;
+      min-width: 0;
     }
 
     .logo {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .logo-mark {
-      width: 32px;
-      height: 32px;
-      border-radius: 12px;
-      background: radial-gradient(circle at 20% 20%, #22c55e 0, #4f46e5 35%, #0f172a 100%);
+      width: 26px;
+      height: 26px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #111827, #1f2937);
+      border: 1px solid rgba(148, 163, 184, 0.6);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
-      font-size: 18px;
-      color: white;
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.8);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent-gold);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
     }
 
     .logo-text-main {
+      font-size: 15px;
       font-weight: 600;
       letter-spacing: 0.04em;
-      font-size: 18px;
     }
 
     .logo-text-sub {
-      font-size: 11px;
+      font-size: 10px;
       text-transform: uppercase;
-      color: var(--text-soft);
       letter-spacing: 0.16em;
-    }
-
-    .chip {
-      font-size: 12px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
       color: var(--text-soft);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(15, 23, 42, 0.6);
     }
 
-    .chip-dot {
-      width: 6px;
-      height: 6px;
+    .nav {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-soft);
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      padding: 6px 4px;
       border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 8px rgba(34, 197, 94, 0.7);
+      border: 1px solid transparent;
     }
 
-    main {
+    .nav a:hover {
+      border-color: rgba(148, 163, 184, 0.7);
+      color: var(--text);
+    }
+
+    .topbar-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      font-size: 13px;
+      border-radius: 999px;
+      padding: 6px 14px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: transparent;
+      color: var(--text-soft);
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--primary), var(--accent-gold));
+      color: var(--text);
+      font-weight: 500;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.9);
+    }
+
+    .btn:hover {
+      filter: brightness(1.05);
+    }
+
+    /* Layout */
+
+    .layout {
+      flex: 1;
       display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.1fr);
-      gap: 28px;
-      align-items: flex-start;
+      grid-template-columns: 260px minmax(0, 1.6fr) minmax(0, 1.2fr);
+      gap: 18px;
+      padding: 18px 20px 32px;
+      max-width: 1320px;
+      margin: 0 auto;
+      width: 100%;
     }
 
-    @media (max-width: 900px) {
-      main {
+    @media (max-width: 1100px) {
+      .layout {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+        grid-template-rows: auto auto;
+        grid-template-areas:
+          "news news"
+          "main side";
+      }
+      .layout-news {
+        grid-area: news;
+      }
+      .layout-main {
+        grid-area: main;
+      }
+      .layout-side {
+        grid-area: side;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .layout {
         grid-template-columns: minmax(0, 1fr);
-      }
-      header {
-        flex-direction: column;
-        align-items: flex-start;
+        grid-template-areas:
+          "news"
+          "main"
+          "side";
       }
     }
 
-    .hero-title {
-      font-size: clamp(26px, 4vw, 34px);
-      font-weight: 650;
-      line-height: 1.1;
+    /* Left column – news */
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.85);
+    }
+
+    .card-title {
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
       margin-bottom: 10px;
     }
 
+    .news-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 13px;
+      color: var(--text-soft);
+      min-height: 120px;
+    }
+
+    .news-empty {
+      font-size: 12px;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* Main content */
+
+    .hero {
+      margin-bottom: 16px;
+    }
+
+    .hero-kicker {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .hero-title {
+      font-size: clamp(24px, 3.4vw, 30px);
+      font-weight: 650;
+      line-height: 1.15;
+      margin: 0 0 8px;
+    }
+
     .hero-title span {
-      background: linear-gradient(to right, #a5b4fc, #22c55e);
-      -webkit-background-clip: text;
-      color: transparent;
+      color: var(--accent-gold);
     }
 
     .hero-subtitle {
       font-size: 14px;
       color: var(--text-soft);
-      max-width: 460px;
+      max-width: 520px;
       line-height: 1.5;
     }
 
-    .hero-pill-row {
+    .hero-actions {
+      margin-top: 18px;
       display: flex;
+      gap: 10px;
       flex-wrap: wrap;
-      gap: 8px;
-      margin: 18px 0;
-    }
-
-    .pill {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      padding: 5px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      color: var(--text-soft);
-      background: rgba(15, 23, 42, 0.7);
-    }
-
-    .pill--accent {
-      border-color: rgba(79, 70, 229, 0.9);
-      background: var(--accent-soft);
-      color: #c7d2fe;
-    }
-
-    .cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-      margin: 22px 0 18px;
-    }
-
-    .btn-primary {
-      border-radius: 999px;
-      padding: 10px 20px;
-      font-size: 14px;
-      font-weight: 500;
-      border: none;
-      cursor: pointer;
-      background: linear-gradient(135deg, #4f46e5, #22c55e);
-      color: white;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.9);
-      text-decoration: none;
-    }
-
-    .btn-primary span.icon {
-      font-size: 14px;
-      transform: translateY(1px);
-    }
-
-    .btn-ghost {
-      border-radius: 999px;
-      padding: 9px 16px;
-      font-size: 13px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      color: var(--text-soft);
-      background: transparent;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .btn-ghost span.icon {
-      font-size: 15px;
     }
 
     .hero-footnote {
+      margin-top: 8px;
       font-size: 11px;
-      color: #6b7280;
-      margin-top: 4px;
+      color: var(--muted);
     }
 
-    .bullet-grid {
+    .section {
+      margin-top: 20px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .feature-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: 10px;
-      margin-top: 8px;
-      font-size: 13px;
     }
 
-    @media (max-width: 700px) {
-      .bullet-grid {
+    @media (max-width: 900px) {
+      .feature-grid {
         grid-template-columns: minmax(0, 1fr);
       }
     }
 
-    .bullet {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
+    .feature {
+      font-size: 13px;
       color: var(--text-soft);
+      padding: 10px 10px 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      background: #020617;
     }
 
-    .bullet-tag {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      margin-top: 6px;
-      background: #22c55e;
-      box-shadow: 0 0 8px rgba(34, 197, 94, 0.7);
-    }
-
-    .bullet strong {
+    .feature strong {
       color: var(--text);
       font-weight: 500;
     }
 
-    /* Right-hand panel (demo preview) */
+    /* Side panel – demo */
 
-    .panel {
-      background: rgba(15, 23, 42, 0.9);
-      border-radius: 20px;
-      padding: 18px 18px 16px;
-      border: 1px solid rgba(31, 41, 55, 0.9);
-      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.95);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .panel-header {
+    .side-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
+      font-size: 12px;
     }
 
-    .panel-title {
-      font-size: 14px;
+    .badge-small {
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: var(--text-soft);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .side-card-title {
+      font-size: 13px;
       font-weight: 500;
-    }
-
-    .panel-pill {
-      font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      color: var(--text-soft);
-    }
-
-    .panel-main {
-      display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.1fr);
-      gap: 10px;
-    }
-
-    @media (max-width: 700px) {
-      .panel-main {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .card-small {
-      background: #020617;
-      border-radius: 14px;
-      border: 1px solid rgba(31, 41, 55, 0.9);
-      padding: 10px 12px;
-      font-size: 12px;
-    }
-
-    .card-small h3 {
-      margin: 0 0 6px;
-      font-size: 12px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 11px;
-      padding: 3px 7px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      color: var(--text-soft);
       margin-bottom: 6px;
     }
 
-    .badge-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #22c55e;
+    .side-text {
+      font-size: 12px;
+      color: var(--text-soft);
+      line-height: 1.45;
+      margin-bottom: 8px;
     }
 
     .metric-row {
       display: flex;
       justify-content: space-between;
       font-size: 12px;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     .metric-label {
-      color: var(--text-soft);
+      color: var(--muted);
     }
 
     .metric-value {
+      color: var(--text);
       font-weight: 500;
     }
 
-    .metric-value--danger {
-      color: var(--danger);
+    .metric-value--high {
+      color: #4ade80;
     }
 
-    .metric-value--ok {
-      color: var(--success);
-    }
-
-    .sector-chip-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 4px;
-    }
-
-    .sector-chip {
-      font-size: 11px;
-      padding: 3px 7px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      color: var(--text-soft);
-    }
-
-    .panel-footer {
+    .side-footer {
       margin-top: 10px;
       font-size: 11px;
-      color: #6b7280;
+      color: var(--muted);
+    }
+
+    .side-actions {
+      margin-top: 12px;
       display: flex;
-      justify-content: space-between;
-      gap: 8px;
       flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .link-muted {
+      font-size: 11px;
+      color: var(--text-soft);
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      cursor: pointer;
     }
 
     footer {
       border-top: 1px solid rgba(31, 41, 55, 0.9);
-      padding: 12px 16px 20px;
+      padding: 10px 20px 16px;
       font-size: 11px;
-      color: #6b7280;
-      margin-top: auto;
+      color: var(--muted);
       text-align: center;
     }
   </style>
 </head>
 <body>
   <div class="page">
-    <div class="container">
-      <header>
+    <!-- Top navigation bar -->
+    <header class="topbar">
+      <div class="topbar-left">
         <div class="logo">
-          <div class="logo-mark">E</div>
-          <div>
+          <div class="logo-mark">EM</div>
+          <div class="logo-text">
             <div class="logo-text-main">EquiMind</div>
-            <div class="logo-text-sub">News-aware portfolio intelligence</div>
+            <div class="logo-text-sub">Nyhedsbaseret porteføljeindsigt</div>
           </div>
         </div>
-        <div class="chip">
-          <span class="chip-dot"></span>
-          Prototype · Private demo
-        </div>
-      </header>
+        <nav class="nav">
+          <a href="#hvem-vi-er">Hvem er vi</a>
+          <a href="#losninger">Løsninger</a>
+          <a href="#arbejdsgang">Arbejdsgang</a>
+          <a href="#forum">Forum</a>
+        </nav>
+      </div>
+      <div class="topbar-right">
+        <button class="btn" type="button">Log ind</button>
+        <button class="btn btn-primary" type="button">Opret bruger</button>
+      </div>
+    </header>
 
-      <main>
-        <!-- LEFT: Hero copy -->
-        <section>
+    <!-- Main layout -->
+    <div class="layout">
+      <!-- Left: news column -->
+      <aside class="layout-news">
+        <div class="card">
+          <div class="card-title">Seneste nyheder</div>
+          <ul class="news-list">
+            <li class="news-empty">
+              Her vil EquiMind på sigt vise udvalgte markedsnyheder og hvordan de potentielt slår igennem i porteføljer.
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Middle: main content -->
+      <main class="layout-main">
+        <section class="hero">
+          <div class="hero-kicker">Uafhængig investeringsindsigt</div>
           <h1 class="hero-title">
-            Fra <span>nyhedsstøj</span> til konkrete risikosignaler på din portefølje.
+            Fra nyhedsstøj til <span>konkrete risikosignaler</span> på din portefølje.
           </h1>
           <p class="hero-subtitle">
-            EquiMind oversætter komplekse makro- og selskabsnyheder til
-            <strong>konkrete procent- og kronebeløb</strong>, så du kan se, hvor meget af din portefølje der reelt er i spil – uden bankprodukter, skjulte gebyrer eller salgspres.
+            EquiMind hjælper dig med at forstå, hvad nye renter, regulering, tariffer eller selskabsnyheder
+            <em>reelt</em> betyder for din egen portefølje – i procent og kroner, ikke kun overskrifter.
           </p>
 
-          <div class="hero-pill-row">
-            <div class="pill pill--accent">Nyhedsrelevans · Porteføljespecifik</div>
-            <div class="pill">Makro, sektor, selskab</div>
-            <div class="pill">Transparente mekanismer</div>
-          </div>
-
-          <div class="cta-row">
-            <a class="btn-primary" href="equimind_report.html" target="_blank" rel="noopener noreferrer">
-              Se demo-rapport
-              <span class="icon">↗</span>
+          <div class="hero-actions">
+            <a href="equimind_report.html" target="_blank" rel="noopener noreferrer">
+              <button class="btn btn-primary" type="button">
+                Se demo-rapport
+              </button>
             </a>
-            <a class="btn-ghost" href="#how-it-works">
-              Sådan fungerer det
-              <span class="icon">↓</span>
-            </a>
+            <button class="btn" type="button">
+              Book en sparring
+            </button>
           </div>
 
           <div class="hero-footnote">
-            Demoen er bygget på en rigtig portefølje og en konkret makronyhed (uventet rentenedsættelse fra FED).
+            Demoen er baseret på en faktisk aktieportefølje og et konkret scenarie: uventet rentenedsættelse fra FED.
           </div>
+        </section>
 
-          <div id="how-it-works" class="bullet-grid">
-            <div class="bullet">
-              <div class="bullet-tag"></div>
-              <div>
-                <strong>1. Portefølje ind</strong><br />
-                Du angiver dine beholdninger: tickers, GAK, antal, sektorer. EquiMind beregner vægte, koncentration og samlet værdi.
-              </div>
+        <section id="losninger" class="section">
+          <div class="section-title">Løsninger</div>
+          <div class="feature-grid">
+            <div class="feature">
+              <strong>Nyheds- og makroanalyse</strong><br />
+              Vi oversætter komplekse nyheder til mekanismer: hvem bliver påvirket, gennem hvilke kanaler og med hvilken
+              retning på risikoen.
             </div>
-            <div class="bullet">
-              <div class="bullet-tag"></div>
-              <div>
-                <strong>2. Nyhed forstået</strong><br />
-                Systemet identificerer mekanismer (renter, tariffer, regulering m.m.) og kobler dem til sektorer og tematikker.
-              </div>
+            <div class="feature">
+              <strong>Porteføljespecifik påvirkning</strong><br />
+              I stedet for generelle kommentarer får du: “Denne nyhed kan påvirke ca. X % af din portefølje, svarende til Y kr.”
             </div>
-            <div class="bullet">
-              <div class="bullet-tag"></div>
-              <div>
-                <strong>3. Risikobeløb ud</strong><br />
-                I stedet for generelle overskrifter får du: “Denne nyhed påvirker ~X % af din portefølje, svarende til ca. Y kr.”
-              </div>
+            <div class="feature">
+              <strong>Struktureret risikodialog</strong><br />
+              Fokus på scenarier, tidshorisont og koncentration – ikke dagsform eller enkeltstående kursudsving.
             </div>
-            <div class="bullet">
-              <div class="bullet-tag"></div>
-              <div>
-                <strong>4. Menneskelig forklaring</strong><br />
-                AI forklarer mekanismen bag nyheden i almindeligt dansk – ikke kun hvad der står, men hvad det betyder for dig.
-              </div>
+            <div class="feature">
+              <strong>Mennesker + AI</strong><br />
+              AI bruges til at finde mønstre og strukturere viden. Menneskelig erfaring bruges til at validere mekanismer
+              og undgå “hallucinationer”.
             </div>
           </div>
         </section>
 
-        <!-- RIGHT: Demo preview card -->
-        <aside class="panel">
-          <div class="panel-header">
-            <div class="panel-title">Demo-indsigt · Uventet rentenedsættelse</div>
-            <div class="panel-pill">Live eksempel</div>
-          </div>
-
-          <div class="panel-main">
-            <!-- News & impact -->
-            <div class="card-small">
-              <div class="badge">
-                <span class="badge-dot"></span>
-                Makronyhed · Renter
-              </div>
-              <h3>FED priset til at sænke renten 10. december</h3>
-              <p>
-                Markedet skifter fra “ingen ændring” til “rentenedsættelse nu”. Det ændrer
-                diskonteringsrenten på fremtidige cash flows og giver typisk medvind til growth/tech.
-              </p>
-              <div class="metric-row">
-                <div class="metric-label">Nyhedsrelevans</div>
-                <div class="metric-value metric-value--ok">Høj (≈ 70/100)</div>
-              </div>
-              <div class="metric-row">
-                <div class="metric-label">Eksponeret porteføljeandel</div>
-                <div class="metric-value">Primært teknologi + healthcare</div>
-              </div>
-              <div class="sector-chip-row">
-                <span class="sector-chip">Tech (AMZN, PLTR, GOOG, NBIS)</span>
-                <span class="sector-chip">Healthcare (NOVO.B)</span>
-              </div>
+        <section id="arbejdsgang" class="section">
+          <div class="section-title">Arbejdsgang</div>
+          <div class="feature-grid">
+            <div class="feature">
+              <strong>1. Din portefølje</strong><br />
+              Du deler struktur: beholdninger, GAK, sektorer og tidshorisont. Vi bygger et overblik over vægte og koncentration.
             </div>
-
-            <!-- Portfolio snapshot -->
-            <div class="card-small">
-              <h3>Portefølje-snapshot (demo)</h3>
-              <div class="metric-row">
-                <div class="metric-label">Samlet værdi</div>
-                <div class="metric-value">≈ din nuværende portefølje</div>
-              </div>
-              <div class="metric-row">
-                <div class="metric-label">Sektorkoncentration</div>
-                <div class="metric-value">Overvægt i Technology</div>
-              </div>
-              <p style="margin-top:6px; margin-bottom:4px;">
-                EquiMind oversætter det til:
-              </p>
-              <ul style="margin: 0 0 4px 18px; padding: 0; font-size: 12px; color: var(--text-soft);">
-                <li>Hvilke sektorer der er mest i spil</li>
-                <li>Hvor stor en del af porteføljen (i % og kr.) nyheden potentielt rammer</li>
-                <li>Hvordan det bør påvirke din risikodialog – ikke dine følelser på dagen</li>
-              </ul>
+            <div class="feature">
+              <strong>2. Nyhedsstrøm</strong><br />
+              Nyheder tagges efter tema (renter, regulering, geopolitik m.m.) og kobles til sektorer og selskaber.
+            </div>
+            <div class="feature">
+              <strong>3. Impact & forklaring</strong><br />
+              Systemet estimerer relevans og eksponering, mens forklaringen skrives i klart dansk – med fokus på “hvorfor”.
+            </div>
+            <div class="feature">
+              <strong>4. Handling og opfølgning</strong><br />
+              Resultatet er input til beslutninger – ikke automatiske handler. Målet er bedre spørgsmål, ikke hurtigere trading.
             </div>
           </div>
+        </section>
 
-          <div class="panel-footer">
-            <span>Demoen er kun et teknisk eksempel – ingen personlig investeringsrådgivning.</span>
-            <span>Fuld rapport: klik på “Se demo-rapport”.</span>
-          </div>
-        </aside>
+        <section id="hvem-vi-er" class="section">
+          <div class="section-title">Hvem er vi</div>
+          <p class="feature" style="margin:0;">
+            EquiMind er tænkt som et uafhængigt bindeled mellem nyhedsstrømmen, din portefølje og din egen mavefornemmelse.
+            Fokus er på transparens, metodik og langsigtet beslutningskvalitet – ikke produkt-salg eller provisionsdrevne anbefalinger.
+          </p>
+        </section>
+
+        <section id="forum" class="section">
+          <div class="section-title">Forum</div>
+          <p class="feature" style="margin:0;">
+            Planen er på sigt at opbygge et fællesskab, hvor brugere kan diskutere mekanismerne bag nyhederne –
+            f.eks. hvordan tariffer rammer virksomheder, forbrugere og marginer på forskellige led i værdikæden.
+          </p>
+        </section>
       </main>
+
+      <!-- Right: demo side panel -->
+      <aside class="layout-side">
+        <div class="card">
+          <div class="side-header">
+            <span>Uventet rentenedsættelse</span>
+            <span class="badge-small">Demo</span>
+          </div>
+          <div class="side-card-title">
+            Hvordan ville en reel EquiMind-vurdering se ud?
+          </div>
+          <p class="side-text">
+            Eksemplet i demo-rapporten tager udgangspunkt i scenariet, hvor markedet pludselig begynder at prise en
+            rentenedsættelse fra FED ind – på et tidspunkt, hvor konsensus tidligere var “uændret rente”.
+          </p>
+          <div class="metric-row">
+            <div class="metric-label">Nyhedsrelevans</div>
+            <div class="metric-value metric-value--high">Høj</div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label">Primære sektorer</div>
+            <div class="metric-value">Tech &amp; Healthcare</div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label">Output</div>
+            <div class="metric-value">Eksponering i % og kr.</div>
+          </div>
+
+          <div class="side-actions">
+            <a href="equimind_report.html" target="_blank" rel="noopener noreferrer">
+              <button class="btn btn-primary" type="button">Åbn demo-rapport</button>
+            </a>
+            <span class="link-muted">Se eksempel på tekstforklaring</span>
+          </div>
+
+          <div class="side-footer">
+            Indholdet er kun til illustration og er ikke personlig investeringsrådgivning. I en rigtig løsning vil
+            vurderingen være tilpasset din konkrete portefølje, risikoprofil og tidshorisont.
+          </div>
+        </div>
+      </aside>
     </div>
 
     <footer>
