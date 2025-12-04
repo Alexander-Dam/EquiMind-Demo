@@ -1,219 +1,543 @@
-
 <!DOCTYPE html>
 <html lang="da">
 <head>
-    <meta charset="UTF-8">
-    <title>EquiMind – Nyheds- og porteføljerapport</title>
-    <style>
-        body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background: #020617;
-            color: #e5e7eb;
-            margin: 0;
-            padding: 24px;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        h1, h2, h3 {
-            color: #f9fafb;
-        }
-        .card {
-            background: #020617;
-            border-radius: 16px;
-            padding: 20px 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 18px 45px rgba(0,0,0,0.6);
-            border: 1px solid #1f2937;
-        }
-        .badge {
-            display: inline-block;
-            background: #22c55e1a;
-            border: 1px solid #22c55e;
-            color: #bbf7d0;
-            border-radius: 999px;
-            padding: 4px 10px;
-            font-size: 12px;
-            margin-bottom: 8px;
-        }
-        .news-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-        .subtitle {
-            color: #9ca3af;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        th, td {
-            border: 1px solid #1f2937;
-            padding: 6px 8px;
-            text-align: left;
-        }
-        th {
-            background: #111827;
-        }
-        .footer {
-            margin-top: 30px;
-            font-size: 12px;
-            color: #6b7280;
-            text-align: center;
-        }
-        .highlight {
-            font-weight: 600;
-            color: #a5b4fc;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>EquiMind – Intelligent aktieindsigt</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #020617;
+      --card: #020617;
+      --border: #1f2937;
+      --accent: #4f46e5;
+      --accent-soft: rgba(79, 70, 229, 0.15);
+      --accent-strong: #a5b4fc;
+      --text: #e5e7eb;
+      --text-soft: #9ca3af;
+      --danger-soft: rgba(239, 68, 68, 0.12);
+      --danger: #f97373;
+      --success-soft: rgba(34, 197, 94, 0.12);
+      --success: #4ade80;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0b1120 0, #020617 55%, #020617 100%);
+      color: var(--text);
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 20% 20%, #22c55e 0, #4f46e5 35%, #0f172a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      color: white;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.8);
+    }
+
+    .logo-text-main {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      font-size: 18px;
+    }
+
+    .logo-text-sub {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      letter-spacing: 0.16em;
+    }
+
+    .chip {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: var(--text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.6);
+    }
+
+    .chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.7);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.1fr);
+      gap: 28px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .hero-title {
+      font-size: clamp(26px, 4vw, 34px);
+      font-weight: 650;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(to right, #a5b4fc, #22c55e);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: var(--text-soft);
+      max-width: 460px;
+      line-height: 1.5;
+    }
+
+    .hero-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0;
+    }
+
+    .pill {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: var(--text-soft);
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .pill--accent {
+      border-color: rgba(79, 70, 229, 0.9);
+      background: var(--accent-soft);
+      color: #c7d2fe;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin: 22px 0 18px;
+    }
+
+    .btn-primary {
+      border-radius: 999px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #4f46e5, #22c55e);
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.9);
+      text-decoration: none;
+    }
+
+    .btn-primary span.icon {
+      font-size: 14px;
+      transform: translateY(1px);
+    }
+
+    .btn-ghost {
+      border-radius: 999px;
+      padding: 9px 16px;
+      font-size: 13px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: var(--text-soft);
+      background: transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-ghost span.icon {
+      font-size: 15px;
+    }
+
+    .hero-footnote {
+      font-size: 11px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    .bullet-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+      .bullet-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .bullet {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      color: var(--text-soft);
+    }
+
+    .bullet-tag {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      margin-top: 6px;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.7);
+    }
+
+    .bullet strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* Right-hand panel (demo preview) */
+
+    .panel {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 20px;
+      padding: 18px 18px 16px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.95);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .panel-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .panel-pill {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: var(--text-soft);
+    }
+
+    .panel-main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 700px) {
+      .panel-main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card-small {
+      background: #020617;
+      border-radius: 14px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      padding: 10px 12px;
+      font-size: 12px;
+    }
+
+    .card-small h3 {
+      margin: 0 0 6px;
+      font-size: 12px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .metric-label {
+      color: var(--text-soft);
+    }
+
+    .metric-value {
+      font-weight: 500;
+    }
+
+    .metric-value--danger {
+      color: var(--danger);
+    }
+
+    .metric-value--ok {
+      color: var(--success);
+    }
+
+    .sector-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .sector-chip {
+      font-size: 11px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      color: var(--text-soft);
+    }
+
+    .panel-footer {
+      margin-top: 10px;
+      font-size: 11px;
+      color: #6b7280;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    footer {
+      border-top: 1px solid rgba(31, 41, 55, 0.9);
+      padding: 12px 16px 20px;
+      font-size: 11px;
+      color: #6b7280;
+      margin-top: auto;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
+  <div class="page">
     <div class="container">
-        <h1>EquiMind – Nyheds- og porteføljerapport (demo)</h1>
+      <header>
+        <div class="logo">
+          <div class="logo-mark">E</div>
+          <div>
+            <div class="logo-text-main">EquiMind</div>
+            <div class="logo-text-sub">News-aware portfolio intelligence</div>
+          </div>
+        </div>
+        <div class="chip">
+          <span class="chip-dot"></span>
+          Prototype · Private demo
+        </div>
+      </header>
 
-        <div class="card">
-            <div class="badge">Makro / Renter</div>
-            <div class="news-title">Markedet prisætter pludseligt rentenedsættelse fra FED den 10. december</div>
-            <div class="subtitle">
-                Eksempel på, hvordan EquiMind kan oversætte en uventet rentenyhed til konkret indsigt for en portefølje.
+      <main>
+        <!-- LEFT: Hero copy -->
+        <section>
+          <h1 class="hero-title">
+            Fra <span>nyhedsstøj</span> til konkrete risikosignaler på din portefølje.
+          </h1>
+          <p class="hero-subtitle">
+            EquiMind oversætter komplekse makro- og selskabsnyheder til
+            <strong>konkrete procent- og kronebeløb</strong>, så du kan se, hvor meget af din portefølje der reelt er i spil – uden bankprodukter, skjulte gebyrer eller salgspres.
+          </p>
+
+          <div class="hero-pill-row">
+            <div class="pill pill--accent">Nyhedsrelevans · Porteføljespecifik</div>
+            <div class="pill">Makro, sektor, selskab</div>
+            <div class="pill">Transparente mekanismer</div>
+          </div>
+
+          <div class="cta-row">
+            <a class="btn-primary" href="equimind_report.html" target="_blank" rel="noopener noreferrer">
+              Se demo-rapport
+              <span class="icon">↗</span>
+            </a>
+            <a class="btn-ghost" href="#how-it-works">
+              Sådan fungerer det
+              <span class="icon">↓</span>
+            </a>
+          </div>
+
+          <div class="hero-footnote">
+            Demoen er bygget på en rigtig portefølje og en konkret makronyhed (uventet rentenedsættelse fra FED).
+          </div>
+
+          <div id="how-it-works" class="bullet-grid">
+            <div class="bullet">
+              <div class="bullet-tag"></div>
+              <div>
+                <strong>1. Portefølje ind</strong><br />
+                Du angiver dine beholdninger: tickers, GAK, antal, sektorer. EquiMind beregner vægte, koncentration og samlet værdi.
+              </div>
             </div>
-            <p>Efter en periode hvor konsensus var, at FED ville holde renterne uændrede resten af året, er nye data og udtalelser fra centrale medlemmer af banken blevet tolket som et signal om en mulig rentenedsættelse allerede den 10. december. Markedet har derfor hurtigt justeret forventningerne, og især vækst- og tech-aktier oplever stigende interesse, mens dollaren svækkes en smule. Den reelle effekt afhænger af, om dette bliver starten på en mere lempelig rentebane eller en enkel, forsigtig justering.</p>
-            <p>
-                Denne nyhed påvirker sektorer der udgør
-                <span class="highlight">100.0 %</span> af din portefølje –
-                svarende til ca. <span class="highlight">35.414 kr</span>.
-            </p>
-            <p>
-                Din samlede porteføljeværdi i denne demo er ca.
-                <span class="highlight">35.414 kr</span>.
-            </p>
-            <p>
-                Overordnet nyhedsrelevans: <span class="highlight">100.0/100</span><br>
-                Berørte sektorer: <span class="highlight">Technology (46.1 %), Healthcare (53.9 %)</span>
-            </p>
-        </div>
+            <div class="bullet">
+              <div class="bullet-tag"></div>
+              <div>
+                <strong>2. Nyhed forstået</strong><br />
+                Systemet identificerer mekanismer (renter, tariffer, regulering m.m.) og kobler dem til sektorer og tematikker.
+              </div>
+            </div>
+            <div class="bullet">
+              <div class="bullet-tag"></div>
+              <div>
+                <strong>3. Risikobeløb ud</strong><br />
+                I stedet for generelle overskrifter får du: “Denne nyhed påvirker ~X % af din portefølje, svarende til ca. Y kr.”
+              </div>
+            </div>
+            <div class="bullet">
+              <div class="bullet-tag"></div>
+              <div>
+                <strong>4. Menneskelig forklaring</strong><br />
+                AI forklarer mekanismen bag nyheden i almindeligt dansk – ikke kun hvad der står, men hvad det betyder for dig.
+              </div>
+            </div>
+          </div>
+        </section>
 
-        <div class="card">
-            <h2>Din portefølje</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Ticker</th>
-                        <th>Navn</th>
-                        <th>Sektor</th>
-                        <th>Antal</th>
-                        <th>GAK</th>
-                        <th>Kurs</th>
-                        <th>Markedsværdi</th>
-                        <th>Gevinst/tab</th>
-                        <th>Vægt</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-        <tr>
-            <td>AMZN</td>
-            <td>Amazon</td>
-            <td>Technology</td>
-            <td>15.00</td>
-            <td>217.00</td>
-            <td>233.00</td>
-            <td>3.495 kr</td>
-            <td>240 kr</td>
-            <td>9.9 %</td>
-        </tr>
-        
-        <tr>
-            <td>NBIS</td>
-            <td>Nebius</td>
-            <td>Technology</td>
-            <td>58.00</td>
-            <td>99.00</td>
-            <td>95.00</td>
-            <td>5.510 kr</td>
-            <td>-232 kr</td>
-            <td>15.6 %</td>
-        </tr>
-        
-        <tr>
-            <td>PLTR</td>
-            <td>Palantir</td>
-            <td>Technology</td>
-            <td>15.00</td>
-            <td>104.00</td>
-            <td>173.00</td>
-            <td>2.595 kr</td>
-            <td>1.035 kr</td>
-            <td>7.3 %</td>
-        </tr>
-        
-        <tr>
-            <td>GOOG</td>
-            <td>Alphabet</td>
-            <td>Technology</td>
-            <td>15.00</td>
-            <td>220.00</td>
-            <td>315.00</td>
-            <td>4.725 kr</td>
-            <td>1.425 kr</td>
-            <td>13.3 %</td>
-        </tr>
-        
-        <tr>
-            <td>NOVO.B</td>
-            <td>Novo Nordisk</td>
-            <td>Healthcare</td>
-            <td>63.00</td>
-            <td>370.00</td>
-            <td>303.00</td>
-            <td>19.089 kr</td>
-            <td>-4.221 kr</td>
-            <td>53.9 %</td>
-        </tr>
-        
-                </tbody>
-            </table>
-            <p><strong>Samlet porteføljeværdi:</strong> 35.414 kr</p>
+        <!-- RIGHT: Demo preview card -->
+        <aside class="panel">
+          <div class="panel-header">
+            <div class="panel-title">Demo-indsigt · Uventet rentenedsættelse</div>
+            <div class="panel-pill">Live eksempel</div>
+          </div>
 
-            <h3>Sektoreksponering</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Sektor</th>
-                        <th>Samlet vægt</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-        <tr>
-            <td>Technology</td>
-            <td>46.1 %</td>
-        </tr>
-        
-        <tr>
-            <td>Healthcare</td>
-            <td>53.9 %</td>
-        </tr>
-        
-                </tbody>
-            </table>
-        </div>
+          <div class="panel-main">
+            <!-- News & impact -->
+            <div class="card-small">
+              <div class="badge">
+                <span class="badge-dot"></span>
+                Makronyhed · Renter
+              </div>
+              <h3>FED priset til at sænke renten 10. december</h3>
+              <p>
+                Markedet skifter fra “ingen ændring” til “rentenedsættelse nu”. Det ændrer
+                diskonteringsrenten på fremtidige cash flows og giver typisk medvind til growth/tech.
+              </p>
+              <div class="metric-row">
+                <div class="metric-label">Nyhedsrelevans</div>
+                <div class="metric-value metric-value--ok">Høj (≈ 70/100)</div>
+              </div>
+              <div class="metric-row">
+                <div class="metric-label">Eksponeret porteføljeandel</div>
+                <div class="metric-value">Primært teknologi + healthcare</div>
+              </div>
+              <div class="sector-chip-row">
+                <span class="sector-chip">Tech (AMZN, PLTR, GOOG, NBIS)</span>
+                <span class="sector-chip">Healthcare (NOVO.B)</span>
+              </div>
+            </div>
 
-        <div class="card">
-            <h2>Forklaring og indsigt</h2>
-            <p>NYHED: Markedet prisætter pludseligt rentenedsættelse fra FED den 10. december<br><br>Hvad handler nyheden om?<br>Efter en periode hvor konsensus var, at FED ville holde renterne uændrede resten af året, er nye data og udtalelser fra centrale medlemmer af banken blevet tolket som et signal om en mulig rentenedsættelse allerede den 10. december. Markedet har derfor hurtigt justeret forventningerne, og især vækst- og tech-aktier oplever stigende interesse, mens dollaren svækkes en smule. Den reelle effekt afhænger af, om dette bliver starten på en mere lempelig rentebane eller en enkel, forsigtig justering.<br><br>Hvordan virker mekanismen bag?<br>Når renterne sænkes, bliver det billigere at låne penge. Det har typisk flere effekter:<br>- Vækst- og tech-aktier får ofte medvind, fordi deres fremtidige cash flows diskonteres med en lavere rente.<br>- Selskaber med høj gæld får lavere finansieringsomkostninger.<br>- Defensive value- og nogle finansaktier kan relativt set blive mindre attraktive end vækstaktier.<br>Det vigtigste er ikke én enkelt rentebeslutning, men hvordan markedets forventninger ændrer sig til fremtiden.<br><br>Makroøkonomiske overraskelser – som uventede rentebeslutninger – påvirker ofte hele markedets risikovillighed. Når centralbanker bliver mere &#x27;duelige&#x27; (dvs. mere lempelige), kan det øge appetitten på risiko, især i sektorer som teknologi, small cap og andre vækst- og tematiske investeringer.<br><br>Hvad betyder det for din portefølje?<br>- Din eksponering mod de sektorer, som nyheden eksplicit rammer: Technology (46.1 % af din portefølje), Healthcare (53.9 % af din portefølje).<br>- Overordnet relevansscore for denne nyhed ift. din portefølje: 100.0/100<br>  → høj relevans for din portefølje.<br>- Din portefølje har samlet set høj koncentrationsrisiko (koncentrationsindeks: 0.348).<br><br>Den konkrete eksponering:<br>- Samlet porteføljeværdi: 35.414 kr<br>- De berørte sektorer udgør ca. 100.0 % af din portefølje.<br>- Det svarer til ca. 35.414 kr, som direkte kan blive påvirket af denne nyhed.<br><br>Hvordan kan du bruge denne viden?<br>Nyheden er højt relevant for dig. Det er et godt tidspunkt at genbesøge din porteføljes risikoniveau og koncentration og overveje, om du er komfortabel med den nuværende eksponering på både kort og længere sigt.<br><br>Generelt:<br>- Tænk i scenarier i stedet for én forudsigelse.<br>- Undgå at overreagere på enkeltstående nyheder, men brug dem som anledning til at vurdere,<br>  om din portefølje stadig afspejler din tidshorisont og din tolerance for udsving.</p>
-        </div>
+            <!-- Portfolio snapshot -->
+            <div class="card-small">
+              <h3>Portefølje-snapshot (demo)</h3>
+              <div class="metric-row">
+                <div class="metric-label">Samlet værdi</div>
+                <div class="metric-value">≈ din nuværende portefølje</div>
+              </div>
+              <div class="metric-row">
+                <div class="metric-label">Sektorkoncentration</div>
+                <div class="metric-value">Overvægt i Technology</div>
+              </div>
+              <p style="margin-top:6px; margin-bottom:4px;">
+                EquiMind oversætter det til:
+              </p>
+              <ul style="margin: 0 0 4px 18px; padding: 0; font-size: 12px; color: var(--text-soft);">
+                <li>Hvilke sektorer der er mest i spil</li>
+                <li>Hvor stor en del af porteføljen (i % og kr.) nyheden potentielt rammer</li>
+                <li>Hvordan det bør påvirke din risikodialog – ikke dine følelser på dagen</li>
+              </ul>
+            </div>
+          </div>
 
-        <div class="footer">
-            EquiMind prototype – alt indhold er for demoformål og er ikke personlig investeringsrådgivning.
-        </div>
+          <div class="panel-footer">
+            <span>Demoen er kun et teknisk eksempel – ingen personlig investeringsrådgivning.</span>
+            <span>Fuld rapport: klik på “Se demo-rapport”.</span>
+          </div>
+        </aside>
+      </main>
     </div>
+
+    <footer>
+      EquiMind – tidlig prototype. Alt indhold er for demoformål og kan ikke bruges som personlig investeringsrådgivning.
+    </footer>
+  </div>
 </body>
 </html>
 
